@@ -1,11 +1,11 @@
 /* Serial 7-Segment Display Example Code
- Serial Mode Stopwatch
  by: Jim Lindblom
  SparkFun Electronics
  date: November 27, 2012
  license: This code is public domain.
  
- This example code shows how you could use software serial
+ This example code shows how you could use so
+ ftware serial
  Arduino library to interface with a Serial 7-Segment Display.
  
  There are example functions for setting the display's
@@ -19,9 +19,22 @@
  5V   --------------------  VCC
  GND  --------------------  GND
  8   --------------------  RX
+
+
++\- 50 Newtons --> Dual Range Force
+k0 = 61.25;
+k1 = -24.5;
+
+calibratedForce = k1*analogRead(A0)*voltsPerLSB + k0;
  */
+ 
+#define voltsPerLSB 0.00488759; 
 #include <SoftwareSerial.h>
 #define DELIMITTER '\t'
+
+// coefficients for force probe calibration.
+#define k0 61.25
+#define k1 -24.5
 
 // These are the Arduino pins required to create a software seiral
 //  instance. We'll actually only use the TX pin.
@@ -37,8 +50,8 @@ char tempString2[10];
 
 unsigned long timeRef;
 unsigned long currTime;
-int ndx;
-int refreshRate = 50;
+unsigned long ndx;
+int refreshRate = 200;
 
 void setup()
 {
